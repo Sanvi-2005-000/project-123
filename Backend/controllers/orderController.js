@@ -1,7 +1,7 @@
-const Order = require('../Models/OrderModel');
-const OrderItem = require('../Models/OrderItemModel');
-const Product = require('../Models/ProductModel');
-const Vendor = require('../Models/VendorModel');
+const Order = require('../models/orderModel');
+const OrderItem = require('../models/orderItemModel');
+const Product = require('../models/productModel');
+const Vendor = require('../models/vendorModel');
 const crypto = require('crypto');
 const Razorpay = require('razorpay');
 require('dotenv').config();
@@ -10,27 +10,30 @@ const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || 'rzp_test_demo';
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || 'demo_secret';
 const RAZORPAY_ENABLED = process.env.RAZORPAY_ENABLED === 'true';
 
+// Initialize Razorpay client
 const razorpay = new Razorpay({
   key_id: RAZORPAY_KEY_ID,
   key_secret: RAZORPAY_KEY_SECRET,
 });
 
+// Format database status code for client application
 function statusToClient(status) {
   if (status === 'on_the_way') return 'on-the-way';
   if (status === 'pending') return 'preparing';
   return status;
 }
 
+// Map order database entry to clean json format
 function formatOrder(order) {
   return {
     id: order.orderNumber,
     restaurantName: order.vendor ? order.vendor.restaurantName : '',
     vendorId: order.vendorId,
-    items: order.items.map((item) => ({
+    items: order.items ? order.items.map((item) => ({
       name: item.name,
       quantity: item.quantity,
       price: item.price,
-    })),
+    })) : [],
     total: order.total,
     status: statusToClient(order.status),
     date: order.createdAt.toISOString().split('T')[0],
@@ -39,6 +42,7 @@ function formatOrder(order) {
   };
 }
 
+// Create new customer order
 async function CreateOrder(req, res) {
   try {
     const { items, address, paymentMode = 'COD', deliveryFee = 40, discount = 0, paymentDetails } = req.body;
@@ -152,6 +156,7 @@ async function CreateOrder(req, res) {
   }
 }
 
+// Confirm online order payment signatures
 async function ConfirmPayment(req, res) {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId } = req.body;
@@ -176,12 +181,17 @@ async function ConfirmPayment(req, res) {
 
     await order.update({ status: 'preparing', paymentMode: 'ONLINE' });
 
-    res.json({ message: 'Payment confirmed', order: formatOrder(await Order.findByPk(order.id, { include: [{ model: OrderItem, as: 'items' }, { model: Vendor, as: 'vendor' }] })) });
+    const updated = await Order.findByPk(order.id, {
+      include: [{ model: OrderItem, as: 'items' }, { model: Vendor, as: 'vendor' }],
+    });
+
+    res.json({ message: 'Payment confirmed', order: formatOrder(updated) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
 
+// Retrieve login user's orders
 async function GetMyOrders(req, res) {
   try {
     const orders = await Order.findAll({
@@ -195,6 +205,7 @@ async function GetMyOrders(req, res) {
   }
 }
 
+// Retrieve login vendor's restaurant orders
 async function GetVendorOrders(req, res) {
   try {
     const orders = await Order.findAll({

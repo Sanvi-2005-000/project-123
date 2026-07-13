@@ -1,6 +1,7 @@
-const Category = require('../Models/CategoryModel');
-const Product = require('../Models/ProductModel');
+const Category = require('../models/categoryModel');
+const Product = require('../models/productModel');
 
+// Retrieve all products matching request criteria
 async function GetAllProducts(req, res) {
   try {
     const where = {};
@@ -29,6 +30,7 @@ async function GetAllProducts(req, res) {
   }
 }
 
+// Create a new food product
 async function CreateProduct(req, res) {
   try {
     const { name, description, price, image, categoryId, categoryName, isVeg, isBestseller, stock, active, vendorId } = req.body;
@@ -68,6 +70,7 @@ async function CreateProduct(req, res) {
   }
 }
 
+// Update existing product attributes
 async function UpdateProduct(req, res) {
   try {
     const product = await Product.findByPk(req.params.id);
@@ -83,6 +86,7 @@ async function UpdateProduct(req, res) {
   }
 }
 
+// Format the database product model output
 function formatProduct(product) {
   return {
     id: product.id,

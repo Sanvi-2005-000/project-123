@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
-const Vendor = require('../Models/VendorModel');
-const Product = require('../Models/ProductModel');
-const Category = require('../Models/CategoryModel');
+const Vendor = require('../models/vendorModel');
+const Product = require('../models/productModel');
+const Category = require('../models/categoryModel');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'zamato-secret-key';
 
+// Helper function to generate vendor JWT token
 function generateVendorToken(vendor) {
   return jwt.sign(
     { id: vendor.id, mobile: vendor.mobile, role: 'vendor' },
@@ -13,6 +14,7 @@ function generateVendorToken(vendor) {
   );
 }
 
+// Clean model details for client presentation
 function formatVendor(vendor) {
   return {
     id: vendor.id,
@@ -34,6 +36,7 @@ function formatVendor(vendor) {
   };
 }
 
+// Handle vendor registration
 async function RegisterVendor(req, res) {
   try {
     const { ownerName, restaurantName, email, mobile, password } = req.body;
@@ -53,6 +56,7 @@ async function RegisterVendor(req, res) {
   }
 }
 
+// Handle vendor authentication/login
 async function LoginVendor(req, res) {
   try {
     const { mobile, password } = req.body;
@@ -71,6 +75,7 @@ async function LoginVendor(req, res) {
   }
 }
 
+// Get vendor personal profile details
 async function GetVendorProfile(req, res) {
   try {
     const vendor = await Vendor.findByPk(req.vendor.id);
@@ -81,6 +86,7 @@ async function GetVendorProfile(req, res) {
   }
 }
 
+// Fetch all publicly visible restaurants and their menu products
 async function GetPublicRestaurants(req, res) {
   try {
     const vendors = await Vendor.findAll({
@@ -97,7 +103,7 @@ async function GetPublicRestaurants(req, res) {
 
     res.json(vendors.map((vendor) => ({
       ...formatVendor(vendor),
-      products: vendor.products.map((product) => ({
+      products: vendor.products ? vendor.products.map((product) => ({
         id: product.id,
         name: product.name,
         description: product.description || '',
@@ -109,7 +115,7 @@ async function GetPublicRestaurants(req, res) {
         isVeg: product.isVeg,
         isBestseller: product.isBestseller,
         active: product.active,
-      })),
+      })) : [],
     })));
   } catch (error) {
     res.status(500).json({ error: error.message });

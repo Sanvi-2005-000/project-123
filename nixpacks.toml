@@ -1,0 +1,8 @@
+# Railway Nixpacks build configuration
+# Tells Railway that the backend is inside the /Backend subfolder
+
+[phases.build]
+cmds = ["cd Backend && npm install"]
+
+[start]
+cmd = "cd Backend && npm start"

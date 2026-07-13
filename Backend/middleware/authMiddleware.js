@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'zamato-secret-key';
 
+// Helper function to generate tokens
 const generateToken = (user) => {
   return jwt.sign(
     { id: user.id, mobile: user.mobile },
@@ -10,6 +11,7 @@ const generateToken = (user) => {
   );
 };
 
+// Middleware to authorize users
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 

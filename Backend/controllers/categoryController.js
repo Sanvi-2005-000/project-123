@@ -1,5 +1,5 @@
-const Category = require('../Models/CategoryModel');
-const Product = require('../Models/ProductModel');
+const Category = require('../models/categoryModel');
+const Product = require('../models/productModel');
 
 const defaultCategories = [
   { name: 'Fast Food', image: 'https://images.pexels.com/photos/1633565/pexels-photo-1633565.jpeg?auto=compress&cs=tinysrgb&w=300' },
@@ -12,12 +12,14 @@ const defaultCategories = [
   { name: 'Beverages', image: 'https://images.pexels.com/photos/3014562/pexels-photo-3014562.jpeg?auto=compress&cs=tinysrgb&w=300' },
 ];
 
+// Seed category table with default entries if empty
 async function seedDefaultCategories() {
   for (const category of defaultCategories) {
     await Category.findOrCreate({ where: { name: category.name }, defaults: category });
   }
 }
 
+// Get all food categories
 async function GetAllCategories(req, res) {
   try {
     await seedDefaultCategories();
@@ -31,13 +33,14 @@ async function GetAllCategories(req, res) {
       name: category.name,
       image: category.image,
       active: category.active,
-      items: category.products.length,
+      items: category.products ? category.products.length : 0,
     })));
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
 
+// Create a new food category
 async function CreateCategory(req, res) {
   try {
     const { name, image, active } = req.body;
@@ -52,6 +55,7 @@ async function CreateCategory(req, res) {
   }
 }
 
+// Update food category details
 async function UpdateCategory(req, res) {
   try {
     const category = await Category.findByPk(req.params.id);
