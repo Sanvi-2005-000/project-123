@@ -1,8 +1,9 @@
-const db = require('../Confiq/db');
+const db = require('../config/db');
 const { DataTypes } = require('sequelize');
-const User = require('./UserModel');
-const Vendor = require('./VendorModel');
+const User = require('./userModel');
+const Vendor = require('./vendorModel');
 
+// Define Order model
 const Order = db.define('Order', {
   id: {
     type: DataTypes.INTEGER,
@@ -50,6 +51,7 @@ const Order = db.define('Order', {
   timestamps: true,
 });
 
+// Setup relationships
 User.hasMany(Order, { foreignKey: 'userId', as: 'orders' });
 Order.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 Vendor.hasMany(Order, { foreignKey: 'vendorId', as: 'orders' });

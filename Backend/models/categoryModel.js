@@ -1,6 +1,7 @@
-const db = require('../Confiq/db');
+const db = require('../config/db');
 const { DataTypes } = require('sequelize');
 
+// Define Category model
 const Category = db.define('Category', {
   id: {
     type: DataTypes.INTEGER,

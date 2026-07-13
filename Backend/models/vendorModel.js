@@ -1,6 +1,7 @@
-const db = require('../Confiq/db');
+const db = require('../config/db');
 const { DataTypes } = require('sequelize');
 
+// Define Vendor model
 const Vendor = db.define('Vendor', {
   id: {
     type: DataTypes.INTEGER,

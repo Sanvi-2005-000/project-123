@@ -1,8 +1,9 @@
-const db = require('../Confiq/db');
+const db = require('../config/db');
 const { DataTypes } = require('sequelize');
-const Category = require('./CategoryModel');
-const Vendor = require('./VendorModel');
+const Category = require('./categoryModel');
+const Vendor = require('./vendorModel');
 
+// Define Product model
 const Product = db.define('Product', {
   id: {
     type: DataTypes.INTEGER,
@@ -45,6 +46,7 @@ const Product = db.define('Product', {
   timestamps: true,
 });
 
+// Setup relationships
 Category.hasMany(Product, { foreignKey: 'categoryId', as: 'products' });
 Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'category' });
 Vendor.hasMany(Product, { foreignKey: 'vendorId', as: 'products' });
