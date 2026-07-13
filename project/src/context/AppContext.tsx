@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
+import { API_URL } from '../lib/api';
 
 export interface MenuItem {
   id: string;
@@ -410,7 +411,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [orders, setOrders] = useState<Order[]>(sampleOrders);
   const [currentRestaurant, setCurrentRestaurant] = useState<Restaurant | null>(null);
 
-  const API_URL = 'http://localhost:8001/api';
+  const API_URL = import.meta.env.VITE_API_URL?.trim()
+    ? import.meta.env.VITE_API_URL.replace(/\/$/, '')
+    : 'https://project-123-production.up.railway.app/api';
 
   const addToCart = (item: MenuItem, restaurantId: string, restaurantName: string) => {
     setCart((prev) => {

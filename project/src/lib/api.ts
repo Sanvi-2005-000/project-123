@@ -1,6 +1,8 @@
 import { MenuItem, Restaurant } from '../context/AppContext';
 
-const API_URL = 'http://localhost:8001/api';
+const rawApiUrl = import.meta.env.VITE_API_URL?.trim() || 'https://project-123-production.up.railway.app';
+export const API_ORIGIN = rawApiUrl.replace(/\/$/, '');
+export const API_URL = API_ORIGIN.endsWith('/api') ? API_ORIGIN : `${API_ORIGIN}/api`;
 
 type ApiProduct = {
   id: number;

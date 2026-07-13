@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { API_ORIGIN } from '../lib/api';
 import { Mail, Phone, MapPin, CreditCard, Heart, Package, Bell, LogOut, ChevronRight, Camera } from 'lucide-react';
 
 const getInitials = (name?: string) => {
@@ -15,11 +16,17 @@ const getInitials = (name?: string) => {
 
 export default function Profile({ user, onLogout }: { user: any | null; onLogout: () => void }) {
   const storedUser = user || JSON.parse(localStorage.getItem('user') || 'null');
+  const imageUrl = storedUser?.image
+    ? storedUser.image.startsWith('http')
+      ? storedUser.image
+      : `${API_ORIGIN}${storedUser.image}`
+    : '';
+
   const profile = {
     name: storedUser?.name || 'Zamato User',
     email: storedUser?.email || 'No email added',
     phone: storedUser?.mobile || 'No mobile added',
-    image: storedUser?.image ? `http://localhost:8001${storedUser.image}` : '',
+    image: imageUrl,
     addresses: [
       {
         id: 1,

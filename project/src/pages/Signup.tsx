@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../lib/api';
 interface SignupProps {
   onAuth: (user: any, token: string) => void;
 }
@@ -27,7 +28,7 @@ function Signup({ onAuth }: SignupProps) {
      }
 
    try {
-     const response = await fetch('http://localhost:8001/api/users/signup', {
+     const response = await fetch(`${API_URL}/users/signup`, {
          method: 'POST',
          body: formData,
      });

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { API_URL } from '../lib/api';
 import { ArrowLeft, CreditCard, MapPin, CheckCircle2, Clock } from 'lucide-react';
 
 interface PaymentPayload {
@@ -32,8 +33,6 @@ interface PaymentLocationState {
   paymentData?: OrderState;
   address?: string;
 }
-
-const API_URL = 'http://localhost:8001/api';
 
 export default function Payment() {
   const { clearCart } = useApp();
