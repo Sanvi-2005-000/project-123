@@ -1,0 +1,23 @@
+﻿# Node dependencies
+node_modules/
+**/node_modules/
+
+# Logs
+*.log
+logs/
+log/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# MacOS
+.DS_Store
+
+# Build output
+dist/
+.coverage
+
+# Package lock files in node_modules
+**/package-lock.json
