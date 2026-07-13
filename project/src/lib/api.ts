@@ -1,4 +1,5 @@
 import { MenuItem, Restaurant } from '../context/AppContext';
+import placeholderFood from '../assets/placeholder-food.svg';
 
 const rawApiUrl = import.meta.env.VITE_API_URL?.trim() || 'https://project-123-production.up.railway.app';
 export const API_ORIGIN = rawApiUrl.replace(/\/$/, '');
@@ -61,7 +62,7 @@ export function restaurantsToList(apiRestaurants: ApiRestaurant[]): Restaurant[]
       name: product.name,
       description: product.description || 'Freshly prepared by the restaurant',
       price: product.price,
-      image: product.image || 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: product.image || placeholderFood,
       category: product.category || 'Featured',
       isVeg: product.isVeg,
       isBestseller: product.isBestseller,
@@ -74,7 +75,7 @@ export function restaurantsToList(apiRestaurants: ApiRestaurant[]): Restaurant[]
     return {
       id: String(vendor.id),
       name: vendor.restaurantName,
-      image: vendor.image || 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: vendor.image || placeholderFood,
       cuisine: cuisines,
       rating: 4.4,
       deliveryTime: '25-35 mins',

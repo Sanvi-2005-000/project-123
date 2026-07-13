@@ -5,16 +5,17 @@ import CategoryCard from '../components/CategoryCard';
 import RestaurantCard from '../components/RestaurantCard';
 import { Restaurant, sampleRestaurants } from '../context/AppContext';
 import { fetchCategories, fetchRestaurants, restaurantsToList } from '../lib/api';
+import placeholderFood from '../assets/placeholder-food.svg';
 
 const categories = [
-  { name: 'Biryani', image: 'https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=150', count: 254 },
-  { name: 'Pizza', image: 'https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=150', count: 187 },
-  { name: 'Burgers', image: 'https://images.pexels.com/photos/1633565/pexels-photo-1633565.jpeg?auto=compress&cs=tinysrgb&w=150', count: 143 },
-  { name: 'Chinese', image: 'https://images.pexels.com/photos/2347311/pexels-photo-2347311.jpeg?auto=compress&cs=tinysrgb&w=150', count: 221 },
-  { name: 'North Indian', image: 'https://images.pexels.com/photos/5408352/pexels-photo-5408352.jpeg?auto=compress&cs=tinysrgb&w=150', count: 312 },
-  { name: 'South Indian', image: 'https://images.pexels.com/photos/3014562/pexels-photo-3014562.jpeg?auto=compress&cs=tinysrgb&w=150', count: 178 },
-  { name: 'Desserts', image: 'https://images.pexels.com/photos/5408352/pexels-photo-5408352.jpeg?auto=compress&cs=tinysrgb&w=150', count: 89 },
-  { name: 'Beverages', image: 'https://images.pexels.com/photos/3014562/pexels-photo-3014562.jpeg?auto=compress&cs=tinysrgb&w=150', count: 156 },
+  { name: 'Biryani', image: placeholderFood, count: 254 },
+  { name: 'Pizza', image: placeholderFood, count: 187 },
+  { name: 'Burgers', image: placeholderFood, count: 143 },
+  { name: 'Chinese', image: placeholderFood, count: 221 },
+  { name: 'North Indian', image: placeholderFood, count: 312 },
+  { name: 'South Indian', image: placeholderFood, count: 178 },
+  { name: 'Desserts', image: placeholderFood, count: 89 },
+  { name: 'Beverages', image: placeholderFood, count: 156 },
 ];
 
 export default function Home() {
@@ -30,7 +31,7 @@ export default function Home() {
         .filter((category) => category.active)
         .map((category) => ({
           name: category.name,
-          image: category.image || 'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=150',
+          image: category.image || placeholderFood,
           count: category.items,
         })));
 
@@ -50,7 +51,7 @@ export default function Home() {
       <section className="relative h-[500px] overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            src={placeholderFood}
             alt="Food"
             className="w-full h-full object-cover"
           />
@@ -170,7 +171,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="relative h-48 rounded-xl overflow-hidden group cursor-pointer">
               <img
-                src="https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=600"
+                src={placeholderFood}
                 alt="Best Biryani"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
@@ -182,7 +183,7 @@ export default function Home() {
             </div>
             <div className="relative h-48 rounded-xl overflow-hidden group cursor-pointer">
               <img
-                src="https://images.pexels.com/photos/1566837/pexels-photo-1566837.jpeg?auto=compress&cs=tinysrgb&w=600"
+                src={placeholderFood}
                 alt="Pizza Places"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
@@ -194,7 +195,7 @@ export default function Home() {
             </div>
             <div className="relative h-48 rounded-xl overflow-hidden group cursor-pointer">
               <img
-                src="https://images.pexels.com/photos/3014562/pexels-photo-3014562.jpeg?auto=compress&cs=tinysrgb&w=600"
+                src={placeholderFood}
                 alt="Cafe"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
@@ -206,7 +207,7 @@ export default function Home() {
             </div>
             <div className="relative h-48 rounded-xl overflow-hidden group cursor-pointer">
               <img
-                src="https://images.pexels.com/photos/1633565/pexels-photo-1633565.jpeg?auto=compress&cs=tinysrgb&w=600"
+                src={placeholderFood}
                 alt="Burger"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
